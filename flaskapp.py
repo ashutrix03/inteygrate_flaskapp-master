@@ -1,6 +1,6 @@
 from flask import Flask
 from flask import request
-
+import os
 #WA[
 from whatsapp import Client
 expected_token = 'The_piano_has_been_drinking'
@@ -20,7 +20,7 @@ def msg():
     to = request.form['to']
     return str(to)
 
-@app.route('/sendmsg')
+@app.route('/sendmsg',methods = ['GET'])
 def sendmsg():
     to = request.args.get('to')
     msg = request.args.get('msg')
@@ -35,4 +35,6 @@ def sendmsg():
     return str(res)
 
 if __name__ == '__main__':
-    app.run()
+# Bind to PORT if defined, otherwise default to 5000.Changed by Ashutosh
+    port = int(os.environ.get('PORT', 5000))
+    app.run(host='0.0.0.0', port=port)
